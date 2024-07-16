@@ -1,0 +1,41 @@
+const Course = require("../models/course");
+
+exports.createCourse = (req, res, next) => {
+  //not done yet security issu in user id, to fix later
+  const course = new Course({
+    title: req.body.title,
+    description: req.body.description,
+    userId: req.body.userId,
+    state: false,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+  });
+  console.log(course);
+  course
+    .save()
+    .then(() => res.status(201).json({ message: "Course saved !" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.modifyCourse = (req, res, next) => {
+  Course.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+    .then(() => res.status(200).json({ message: "Objet modifié !" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.getOneCourse = (req, res, next) => {
+  Course.findOne({ _id: req.params.id })
+    .then((Course) => res.status(200).json(Course))
+    .catch((error) => res.status(404).json({ error }));
+};
+
+exports.deleteCourse = (req, res, next) => {
+  Course.deleteOne({ _id: req.params.id })
+    .then(() => res.status(200).json({ message: "Objet supprimé !" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.getAllCourses = (req, res, next) => {
+  Course.find()
+    .then((Courses) => res.status(200).json(Courses))
+    .catch((error) => res.status(400).json({ error }));
+};

@@ -1,11 +1,12 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
-const Thing = require("./models/thing");
-const stuffRoutes = require("./routes/stuff");
-const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
+const courseRoutes = require("./routes/course");
+const path = require('path');
 
 const uri =
-  "mongodb+srv://API_USER:z3S0EpHLNZemj6IS@cluster0.mpkcnpq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.mpkcnpq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 mongoose
@@ -32,8 +33,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/stuff", stuffRoutes);
-app.use("/api/auth", userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use("/api/category", categoryRoutes);
+app.use("/api/courses", courseRoutes);
 
 
 module.exports = app;

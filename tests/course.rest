@@ -1,0 +1,46 @@
+POST http://localhost:3000/api/courses
+Content-Type: application/json
+
+{
+    "title": "Test Course",
+    "description": "C:/Users/miled/Pictures/20230128_183604.jpge",
+    "imageUrl": "test",
+    "userId": "miled"
+}
+
+
+###
+
+POST http://localhost:3000/api/courses
+Content-Type: application/json
+
+{
+    "title": "Test Course 2",
+    "description": "This is a test course 2",
+    "imageUrl": "test 2",
+    "userId": "miled 2"
+}
+
+###
+
+GET http://localhost:3000/api/courses
+
+###
+
+GET http://localhost:3000/api/courses/669632492ec89ae14ca4a04d
+
+###
+
+PUT http://localhost:3000/api/courses/669632492ec89ae14ca4a04d
+Content-Type: application/json
+
+{
+    "title": "Test Course update",
+    "description": "This is a test course update",
+    "imageUrl": "test update",
+    "userId": "miled update"
+}
+
+###
+
+DELETE http://localhost:3000/api/courses/669632492ec89ae14ca4a04d
