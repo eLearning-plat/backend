@@ -7,7 +7,9 @@ exports.createCourse = (req, res, next) => {
     description: req.body.description,
     userId: req.body.userId,
     state: false,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
   });
   console.log(course);
   course
@@ -17,9 +19,31 @@ exports.createCourse = (req, res, next) => {
 };
 
 exports.modifyCourse = (req, res, next) => {
-  Course.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-    .then(() => res.status(200).json({ message: "Objet modifié !" }))
-    .catch((error) => res.status(400).json({ error }));
+  const courseObject = req.file
+    ? {
+        title: req.body.title,
+        description: req.body.description,
+        userId: req.body.userId,
+        state: req.body.state,
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      }
+    : { ...req.body };
+
+  delete courseObject._userId;
+  Course.findOne({ _id: req.params.id })
+    .then(() => {
+      Course.updateOne(
+        { _id: req.params.id },
+        { ...courseObject, _id: req.params.id }
+      )
+        .then(() => res.status(200).json({ message: "Objet modifié!" }))
+        .catch((error) => res.status(401).json({ error }));
+    })
+    .catch((error) => {
+      res.status(400).json({ error });
+    });
 };
 
 exports.getOneCourse = (req, res, next) => {

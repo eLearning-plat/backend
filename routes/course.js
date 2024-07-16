@@ -8,7 +8,7 @@ router.post("/", multer, courseCtrl.createCourse);
 
 router.get("/:id", courseCtrl.getOneCourse);
 
-router.put("/:id", courseCtrl.modifyCourse);
+router.put("/:id", multer, courseCtrl.modifyCourse);
 
 router.delete("/:id", courseCtrl.deleteCourse);
 

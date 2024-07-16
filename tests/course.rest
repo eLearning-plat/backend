@@ -31,14 +31,15 @@ GET http://localhost:3000/api/courses/669632492ec89ae14ca4a04d
 
 ###
 
-PUT http://localhost:3000/api/courses/669632492ec89ae14ca4a04d
+PUT http://localhost:3000/api/courses/669632152ec89ae14ca4a04a
 Content-Type: application/json
 
 {
-    "title": "Test Course update",
+    "title": "Test Course update tam",
     "description": "This is a test course update",
     "imageUrl": "test update",
-    "userId": "miled update"
+    "userId": "miled update", 
+    "state": true
 }
 
 ###
