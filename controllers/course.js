@@ -1,4 +1,5 @@
 const Course = require("../models/course");
+const fs = require("fs");
 
 exports.createCourse = (req, res, next) => {
   //not done yet security issu in user id, to fix later
@@ -18,6 +19,7 @@ exports.createCourse = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+//not done yet security issu in user id, to fix later
 exports.modifyCourse = (req, res, next) => {
   const courseObject = req.file
     ? {
@@ -52,10 +54,23 @@ exports.getOneCourse = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
+
+//not done yet security issu in user id, to fix later
 exports.deleteCourse = (req, res, next) => {
-  Course.deleteOne({ _id: req.params.id })
-    .then(() => res.status(200).json({ message: "Objet supprimé !" }))
-    .catch((error) => res.status(400).json({ error }));
+  Course.findOne({ _id: req.params.id })
+    .then((course) => {
+      const filename = course.imageUrl.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {
+        Course.deleteOne({ _id: req.params.id })
+          .then(() => {
+            res.status(200).json({ message: "Objet supprimé !" });
+          })
+          .catch((error) => res.status(401).json({ error }));
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 exports.getAllCourses = (req, res, next) => {
