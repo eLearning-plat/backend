@@ -1,8 +1,8 @@
 const express = require("express");
 const courseCtrl = require("../controllers/course");
-const multer = require("../middleware/multer-config");
-
 const router = express.Router();
+
+const multer = require("../middleware/multer-config");
 
 router.post("/", multer, courseCtrl.createCourse);
 

@@ -1,0 +1,14 @@
+GET http://localhost:3000/api/meetings
+
+
+###
+POST http://localhost:3000/api/meetings
+Content-Type: application/json
+
+{
+    "title": "Test Meeting 2",
+    "description": "This is a test meeting",
+    "imageUrl": "test",
+    "userId": "miled",
+    "date": "2021-06-01T00:00:00Z"
+}
