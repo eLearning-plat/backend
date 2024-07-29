@@ -1,4 +1,3 @@
-const category = require("../models/category");
 const Course = require("../models/course");
 const fs = require("fs");
 
