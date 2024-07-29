@@ -6,6 +6,7 @@ const categoryRoutes = require("./routes/category");
 const courseRoutes = require("./routes/course");
 const meetingRoutes = require("./routes/meeting");
 const blogRoutes = require("./routes/blog");
+const reviewRoutes = require("./routes/review");
 const path = require('path');
 
 const uri =
@@ -41,6 +42,7 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/meetings", meetingRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 
 module.exports = app;
