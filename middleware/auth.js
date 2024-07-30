@@ -1,15 +1,10 @@
-const jwt = require('jsonwebtoken');
- 
-module.exports = (req, res, next) => {
-   try {
-       const token = req.headers.authorization.split(' ')[1];
-       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-       const userId = decodedToken.userId;
-       req.auth = {
-           userId: userId
-       };
-	next();
-   } catch(error) {
-       res.status(401).json({ error });
-   }
+const { auth } = require("express-oauth2-jwt-bearer");
+
+module.exports = () => {
+  // Authorization middleware. When used, the Access Token must
+  // exist and be verified against the Auth0 JSON Web Key Set.
+  const checkJwt = auth({
+    audience: "668e8115fe64200436972a34",
+    issuerBaseURL: `https://dev-nokuvgx3njqonar7.us.auth0.com/api/v2/`,
+  });
 };
