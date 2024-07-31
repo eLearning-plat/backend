@@ -8,7 +8,13 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'images');
+    let folder = 'uploads';
+    if (file.mimetype.startsWith('image/')) {
+      folder = 'images';
+    } else if (file.mimetype === 'application/pdf') {
+      folder = 'files';
+    }
+    callback(null, folder);
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(' ').join('_');

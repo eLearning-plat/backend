@@ -3,6 +3,7 @@ const fs = require("fs");
 
 exports.createCourse = (req, res, next) => {
   //not done yet security issu in user id, to fix later
+  
   const course = new Course({
     title: req.body.title,
     description: req.body.description,
@@ -10,7 +11,7 @@ exports.createCourse = (req, res, next) => {
     userId: req.body.userId,
     state: false,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
+      req.file.filename[0]
     }`,
   });
   console.log(course);
