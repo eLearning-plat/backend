@@ -9,7 +9,9 @@ exports.createMeeting = (req, res, next) => {
     description: req.body.description,
     date: req.body.date,
     userId: req.body.userId,
-    courseId: req.body.courseId
+    courseId: req.body.courseId,
+    url: req.body.url,
+    
   });
   console.log(req.body.date);
   meeting
@@ -26,7 +28,8 @@ exports.modifyMeeting = (req, res, next) => {
     description: req.body.description,
     date: req.body.date,
     userId: req.body.userId,
-    courseId: req.body.courseId
+    courseId: req.body.courseId,
+    url: req.body.url
   };
   Meeting.findOne({ _id: req.params.id })
     .then(() => {
