@@ -8,12 +8,11 @@ exports.createMeeting = (req, res, next) => {
     title: req.body.title,
     description: req.body.description,
     date: req.body.date,
+    endDate: req.body.endDate,
     userId: req.body.userId,
     courseId: req.body.courseId,
     url: req.body.url,
-    
   });
-  console.log(req.body.date);
   meeting
     .save()
     .then(() => res.status(201).json({ message: "Meeting saved !" }))
@@ -23,13 +22,14 @@ exports.createMeeting = (req, res, next) => {
 //update a meeting
 
 exports.modifyMeeting = (req, res, next) => {
-  const meetingObject = { 
+  const meetingObject = {
     title: req.body.title,
     description: req.body.description,
     date: req.body.date,
+    endDate: req.body.endDate,
     userId: req.body.userId,
     courseId: req.body.courseId,
-    url: req.body.url
+    url: req.body.url,
   };
   Meeting.findOne({ _id: req.params.id })
     .then(() => {
@@ -60,11 +60,22 @@ exports.deleteMeeting = (req, res, next) => {
 //get all meetings
 
 exports.getAllMeetings = (req, res, next) => {
-  Meeting.find()
+  const { date, userId, courseId } = req.query;
+  const query = {};
+  if (date) {
+    query.date = date;
+  }
+  if (userId) {
+    query.userId = userId;
+  }
+  if (courseId) {
+    query.courseId;
+  }
+
+  Meeting.find(query)
     .then((meetings) => res.status(200).json(meetings))
     .catch((error) => res.status(400).json({ error }));
 };
-
 
 //get a meeting by id
 
