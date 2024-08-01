@@ -39,12 +39,13 @@ app.use((req, res, next) => {
 });
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/files', express.static(path.join(__dirname, 'files')));
 app.use("/api/category", categoryRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/meetings", meetingRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/reviews", reviewRoutes);
-app.use("/api/reviews", documentRoutes);
+app.use("/api/documents", documentRoutes);
 
 
 module.exports = app;
