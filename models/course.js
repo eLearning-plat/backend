@@ -5,7 +5,7 @@ const courseSchema = mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
-  imageUrl: { type: String, required: true },
+  image: { type: String, required: true },
   userId: { type: String, required: true },
   state: { type: Boolean, default: false },
 });

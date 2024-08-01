@@ -3,7 +3,18 @@ const Review = require("../models/review");
 // get all reviews
 
 exports.getAllReviews = (req, res, next) => {
-  Review.find()
+  const { courseId, userId, verified } = req.query;
+  let query = {};
+  if (courseId) {
+    query.courseId = courseId;
+  }
+  if (userId) {
+    query.userId = userId;
+  }
+  if (verified) {
+    query.verified = verified;
+  }
+  Review.find(query)
     .then((reviews) => res.status(200).json(reviews))
     .catch((error) => res.status(400).json({ error }));
 };
@@ -50,7 +61,13 @@ exports.getOneReview = (req, res, next) => {
 // update review by id
 
 exports.modifyReview = (req, res, next) => {
-  Review.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+  const reviewObject = {
+    userId: req.body.userId,
+    courseId: req.body.courseId,
+    content: req.body.content,
+    verified: req.body.verified,
+  };
+  Review.updateOne({ _id: req.params.id }, { reviewObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: "Review updated !" }))
     .catch((error) => res.status(400).json({ error }));
 };

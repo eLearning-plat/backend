@@ -1,6 +1,7 @@
 const Course = require("../models/course");
 const fs = require("fs");
 
+
 exports.createCourse = (req, res, next) => {
   //not done yet security issu in user id, to fix later
   
@@ -10,8 +11,8 @@ exports.createCourse = (req, res, next) => {
     category: req.body.category,
     userId: req.body.userId,
     state: false,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename[0]
+    image: `${req.protocol}://${req.get("host")}/images/${
+      req.files.image[0].filename
     }`,
   });
   console.log(course);
@@ -30,8 +31,8 @@ exports.modifyCourse = (req, res, next) => {
         category: req.body.category,
         userId: req.body.userId,
         state: req.body.state,
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
+        image: `${req.protocol}://${req.get("host")}/images/${
+          req.files.image[0].filename
         }`,
       }
     : {
@@ -42,7 +43,6 @@ exports.modifyCourse = (req, res, next) => {
         state: req.body.state,
       };
 
-  delete courseObject._userId;
   Course.findOne({ _id: req.params.id })
     .then(() => {
       Course.updateOne(
@@ -67,7 +67,7 @@ exports.getOneCourse = (req, res, next) => {
 exports.deleteCourse = (req, res, next) => {
   Course.findOne({ _id: req.params.id })
     .then((course) => {
-      const filename = course.imageUrl.split("/images/")[1];
+      const filename = course.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
         Course.deleteOne({ _id: req.params.id })
           .then(() => {
@@ -82,7 +82,19 @@ exports.deleteCourse = (req, res, next) => {
 };
 
 exports.getAllCourses = (req, res, next) => {
-  Course.find()
+  const { category, userId, state } = req.query;
+  const query = {};
+  if (category) {
+    query.category = category;
+  }
+  if (userId) {
+    query.userId = userId;
+  }
+  if (state) {
+    query.state = state;
+  }
+
+  Course.find(query)
     .then((Courses) => res.status(200).json(Courses))
     .catch((error) => res.status(400).json({ error }));
 };
