@@ -4,14 +4,14 @@ const fs = require("fs");
 //create a blog
 
 exports.createBlog = (req, res, next) => {
-  console.log('Request file:', req.file); 
-  console.log('Request body:', req.body);
+  console.log("Request file:", req.file);
+  console.log("Request body:", req.body);
   const blog = new Blog({
     title: req.body.title,
     description: req.body.description,
     content: req.body.content,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
+      req.files.file[0].filename
     }`,
     userId: req.body.userId,
     state: false,
@@ -26,7 +26,16 @@ exports.createBlog = (req, res, next) => {
 //get all blogs
 
 exports.getAllBlogs = (req, res, next) => {
-  Blog.find()
+  const { userId, state } = req.query;
+  let query = {};
+  if (userId) {
+    query.userId = userId;
+  }
+  if (state) {
+    query.state = state;
+  }
+
+  Blog.find(query)
     .then((blogs) => res.status(200).json(blogs))
     .catch((error) => res.status(400).json({ error }));
 };
