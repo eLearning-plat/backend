@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/files', express.static(path.join(__dirname, 'files')));
 app.use("/api/category", categoryRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/meetings", meetingRoutes);

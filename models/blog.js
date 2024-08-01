@@ -9,6 +9,8 @@ const blogSchema = mongoose.Schema({
     userId: { type: String, required: true },
     state: { type: Boolean, default: false },
     date: { type: Date, required: true },
+    likes: { type: Number, default: 0 },
+    dislikes: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('Blog', blogSchema);

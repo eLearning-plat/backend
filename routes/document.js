@@ -14,5 +14,4 @@ router.delete("/:id", documentCtrl.deleteDocument);
 
 router.get("/", documentCtrl.getAllDocuments);
 
-
 module.exports = router;
