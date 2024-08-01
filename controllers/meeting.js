@@ -10,6 +10,7 @@ exports.createMeeting = (req, res, next) => {
     date: req.body.date,
     userId: req.body.userId,
     courseId: req.body.courseId,
+    endDate:req.body.endDate,
     url: req.body.url,
     
   });
@@ -29,6 +30,7 @@ exports.modifyMeeting = (req, res, next) => {
     date: req.body.date,
     userId: req.body.userId,
     courseId: req.body.courseId,
+    endDate:req.body.endDate,
     url: req.body.url
   };
   Meeting.findOne({ _id: req.params.id })

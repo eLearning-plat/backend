@@ -44,7 +44,7 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/meetings", meetingRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/reviews", reviewRoutes);
-app.use("/api/reviews", documentRoutes);
+app.use("/api/documents", documentRoutes);
 
 
 module.exports = app;
