@@ -51,7 +51,7 @@ exports.getOneBlog = (req, res, next) => {
 //update a blog
 
 exports.modifyBlog = (req, res, next) => {
-  const blogObject = req.file
+  const blogObject = req.files.file[0]
     ? {
         title: req.body.title,
         description: req.body.description,
@@ -59,12 +59,17 @@ exports.modifyBlog = (req, res, next) => {
         userId: req.body.userId,
         state: req.body.state,
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
+          req.files.file[0].filename
         }`,
       }
-    : { ...req.body };
+    : {
+        title: req.body.title,
+        description: req.body.description,
+        content: req.body.content,
+        userId: req.body.userId,
+        state: req.body.state,
+      };
 
-  delete blogObject._userId;
   Blog.findOne({ _id: req.params.id })
     .then(() => {
       Blog.updateOne(
