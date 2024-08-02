@@ -60,7 +60,15 @@ exports.deleteMeeting = (req, res, next) => {
 //get all meetings
 
 exports.getAllMeetings = (req, res, next) => {
-  Meeting.find()
+  const { courseId, userId } = req.query;
+  const query = {};
+  if (courseId) {
+    query.courseId = courseId;
+  }
+  if (userId) {
+    query.userId = userId;
+  }
+  Meeting.find(query)
     .then((meetings) => res.status(200).json(meetings))
     .catch((error) => res.status(400).json({ error }));
 };
