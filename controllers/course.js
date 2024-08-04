@@ -1,15 +1,18 @@
 const Course = require("../models/course");
 const fs = require("fs");
 
+
 exports.createCourse = (req, res, next) => {
   //not done yet security issu in user id, to fix later
+  
   const course = new Course({
     title: req.body.title,
     description: req.body.description,
+    category: req.body.category,
     userId: req.body.userId,
     state: false,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
+    image: `${req.protocol}://${req.get("host")}/images/${
+      req.files.image[0].filename
     }`,
   });
   console.log(course);
@@ -25,22 +28,28 @@ exports.modifyCourse = (req, res, next) => {
     ? {
         title: req.body.title,
         description: req.body.description,
+        category: req.body.category,
         userId: req.body.userId,
         state: req.body.state,
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
-          req.file.filename
+        image: `${req.protocol}://${req.get("host")}/images/${
+          req.files.image[0].filename
         }`,
       }
-    : { ...req.body };
+    : {
+        title: req.body.title,
+        description: req.body.description,
+        category: req.body.category,
+        userId: req.body.userId,
+        state: req.body.state,
+      };
 
-  delete courseObject._userId;
   Course.findOne({ _id: req.params.id })
     .then(() => {
       Course.updateOne(
         { _id: req.params.id },
         { ...courseObject, _id: req.params.id }
       )
-        .then(() => res.status(200).json({ message: "Objet modifié!" }))
+        .then(() => res.status(200).json({ message: req.body.title }))
         .catch((error) => res.status(401).json({ error }));
     })
     .catch((error) => {
@@ -54,12 +63,11 @@ exports.getOneCourse = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
-
 //not done yet security issu in user id, to fix later
 exports.deleteCourse = (req, res, next) => {
   Course.findOne({ _id: req.params.id })
     .then((course) => {
-      const filename = course.imageUrl.split("/images/")[1];
+      const filename = course.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
         Course.deleteOne({ _id: req.params.id })
           .then(() => {
@@ -74,7 +82,19 @@ exports.deleteCourse = (req, res, next) => {
 };
 
 exports.getAllCourses = (req, res, next) => {
-  Course.find()
+  const { category, userId, state } = req.query;
+  const query = {};
+  if (category) {
+    query.category = category;
+  }
+  if (userId) {
+    query.userId = userId;
+  }
+  if (state) {
+    query.state = state;
+  }
+
+  Course.find(query)
     .then((Courses) => res.status(200).json(Courses))
     .catch((error) => res.status(400).json({ error }));
 };

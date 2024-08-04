@@ -1,5 +1,7 @@
+const swagger = require('./swagger');
 const http = require('http');
 const app = require('./app');
+
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -44,4 +46,5 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
+swagger(app);
 server.listen(port);

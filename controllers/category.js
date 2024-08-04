@@ -41,7 +41,8 @@ exports.getOneCategory = (req, res, next) => {
 
 exports.createCategory = (req, res, next) => {
   const category = new Category({
-    ...req.body
+    title: req.body.title,
+    description: req.body.description
   });
   category
     .save()
@@ -60,7 +61,10 @@ exports.createCategory = (req, res, next) => {
 //update a category
 
 exports.modifyCategory = (req, res, next) => {
-  Category.updateOne({ _id: req.params.id }, req.body) // Removed the _id from the update object
+  Category.updateOne({ _id: req.params.id }, {
+    title: req.body.title,
+    description: req.body.description
+  }) // Removed the _id from the update object
     .then((result) => {
       if (result.matchedCount === 0) {
         // No documents matched the query. Document not found

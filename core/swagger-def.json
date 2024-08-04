@@ -1,0 +1,274 @@
+{
+  "openapi": "3.0.3",
+  "components": {
+    "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "description"]
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "format": "Binary"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "description", "category", "imageUrl", "state"]
+      }
+    }
+  },
+  "info": {
+    "title": "Elearning API Documentation",
+    "description": "This is the API documentation for Elearning.",
+    "contact": {
+      "email": "miledmohamedameur@isimm.u-monastir.tn"
+    },
+    "version": "1.0 dev"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Category",
+      "description": "Category operations (CRUD)."
+    },
+    {
+      "name": "Course",
+      "description": "Course operations (CRUD)."
+    },
+    {
+      "name": "Blog",
+      "description": "Blog operations (CRUD)."
+    },
+    {
+      "name": "Meeting",
+      "description": "Meeting operations (CRUD)."
+    }
+  ],
+  "paths": {
+    "/api/category": {
+      "get": {
+        "tags": ["Category"],
+        "responses": {
+          "200": {
+            "description": "List of categories"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Category"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category created"
+          }
+        }
+      }
+    },
+    "/api/category/{id}": {
+      "get": {
+        "tags": ["Category"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Category"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category updated"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Category"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category deleted"
+          }
+        }
+      }
+    },
+    "/api/courses": {
+      "get": {
+        "tags": ["Course"],
+        "responses": {
+          "200": {
+            "description": "List of courses"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Course"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Course"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Course created"
+          }
+        }
+      }
+    },
+    "/api/courses/{id}":{
+      "get": {
+        "tags": ["Course"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Course"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course updated"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Course"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Course"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course deleted"
+          }
+        }
+      }
+    }
+  }
+}
