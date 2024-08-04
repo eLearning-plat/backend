@@ -82,7 +82,7 @@ exports.deleteCourse = (req, res, next) => {
 };
 
 exports.getAllCourses = (req, res, next) => {
-  const { category,coursId, userId, state } = req.query;
+  const { category, userId, state } = req.query;
   const query = {};
   if (category) {
     query.category = category;
