@@ -11,12 +11,13 @@ const documentRoutes = require("./routes/document");
 const path = require("path");
 const app = express();
 const { auth } = require("express-oauth2-jwt-bearer");
-app.use(
-  auth({
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-    audience: process.env.AUTH0_AUDIENCE,
-  })
-);
+// app.use(
+//   auth({
+//     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+//     audience: process.env.AUTH0_AUDIENCE,
+//     tokenSigningAlg: "RS256",
+//   })
+// );
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.mpkcnpq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
