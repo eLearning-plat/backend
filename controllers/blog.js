@@ -4,8 +4,7 @@ const fs = require("fs");
 //create a blog
 
 exports.createBlog = (req, res, next) => {
-  console.log("Request file:", req.file);
-  console.log("Request body:", req.body);
+  
   const blog = new Blog({
     title: req.body.title,
     description: req.body.description,
@@ -26,7 +25,8 @@ exports.createBlog = (req, res, next) => {
 //get all blogs
 
 exports.getAllBlogs = (req, res, next) => {
-  
+  const auth = req.auth;
+  console.log(auth.payload['http://localhost:3000/roles']);
   const { userId, state } = req.query;
   let query = {};
   if (userId) {

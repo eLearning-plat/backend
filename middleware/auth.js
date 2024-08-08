@@ -1,22 +1,12 @@
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
+const User = require("../models/user");
+const { auth } = require("express-oauth2-jwt-bearer");
 
-module.exports = async (req, res, next) => {
-  const token =
-    req.headers.authorization && req.headers.authorization.split(" ")[1];
-  if (!token) {
-    return res.status(401).send("Authorization token is missing");
-  }
+const jwtCheck = auth({
+  audience: "this is a unique identtifier",
+  issuerBaseURL: "https://dev-nokuvgx3njqonar7.us.auth0.com/",
+  tokenSigningAlg: "RS256",
+});
 
-  try {
-    const userInof = await axios.get(`${process.env.AUTH_ISSUER}/userinfo`, {
-      headers: { authorization: `Bearer ${token}` },
-    });
-    console.log(userInof.data);
-  } catch (error) {
-    console.error("Error getting user info");
-    return res.status(401).send("Invalid token");
-  }
-
-  next();
-};
+module.exports = jwtCheck;
